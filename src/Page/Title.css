@@ -1,0 +1,32 @@
+.container {
+    background-color: black;
+    height: 755px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title-container {
+}
+div .artist {
+    font-family: 'Poppins', sans-serif;
+    color: rgb(164,179,164);
+    font-weight: 600;
+}
+
+div .title {
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+div button {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: white;
+    background-color: rgb(3,187,78);
+    padding: 5px 35px;
+    border: none;
+    border-radius: 13px;
+    letter-spacing: 1px;
+}
