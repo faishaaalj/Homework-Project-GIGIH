@@ -1,12 +1,33 @@
 .container {
     background-color: black;
-    height: 755px;
-    display: flex;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
     justify-content: center;
+    grid-gap: 0.5em;
+    margin: auto;
+    /* justify-content: center;
     align-items: center;
+    flex-direction: row; */
 }
 
+.wrapper {
+    display: flex;
+    justify-content: center;
+}
 .title-container {
+   background-color: rgba(155, 155, 155, 0.096);
+   border-radius: 7px;
+   width: 50%;
+   margin: 30px;
+   padding: 20px;
+   box-sizing: border-box;
+   
+}
+
+.title-container:hover {
+    background-color: rgba(212, 211, 211, 0.192);
+    transition: 0.3s;
 }
 div .artist {
     font-family: 'Poppins', sans-serif;
@@ -29,4 +50,12 @@ div button {
     border: none;
     border-radius: 13px;
     letter-spacing: 1px;
+    
 }
+
+button:hover {
+    transform: scale(1.15);
+    transition: 0.05s;
+
+}
+    
