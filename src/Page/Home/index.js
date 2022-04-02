@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import './style.css';
 import SongInfo from "../../Component/SongInfo";
 import Search from "../../Component/SearchBar";
+import Playlist from "../../Component/FormPlaylist";
 
 
 
@@ -20,23 +21,24 @@ const Home = () => {
     const [token, setToken] = useState(access_token)
 
 
-    const searchResultSuccess = (data)=> {
+    const searchResultSuccess = (data) => {
         const selectedTracks = filterSelectedTracks();
         const notSelectedTrack = data.filter(
             (track) => !selectedTrack.includes(track.uri)
         );
 
         setTracks([...selectedTracks, ...notSelectedTrack])
+        console.log(tracks)
 
     }
 
-    const filterSelectedTracks = ()=> {
+    const filterSelectedTracks = () => {
         return tracks.filter((track) => selectedTrack.includes(track.uri))
     }
     const toggleSelect = (track) => {
         const uri = track.uri;
 
-        if(selectedTrack.includes(uri)) {
+        if (selectedTrack.includes(uri)) {
             setSelectedTrack(selectedTrack.filter((item) => item !== uri));
         } else {
             setSelectedTrack([...selectedTrack, uri]);
@@ -62,14 +64,21 @@ const Home = () => {
                         <a onClick={logOut}>Logout</a>
                         <h3>Search Track Here</h3>
                         <div>
-                            <Search token={token} searchResult={(tracks) => searchResultSuccess(tracks)}/>
+                            <Search token={token} searchResult={(tracks) => searchResultSuccess(tracks)} />
                         </div>
+                        {tracks.length > 0 && (
+                            <div className="playlist-container">
+                                <h2>Create Playlist</h2>
+                                <Playlist />
+                            </div>
+                        )}
+
                     </div>
                     <div className="container" >
                         {tracks.map(e => (
                             <div className="wrapper">
                                 <div className="title-container">
-                                    <SongInfo  key={e.uri} url={e.album.images[1].url} title={e.name} artist={e.artists[0].name} toggleSelect={()=> toggleSelect(e)} />
+                                    <SongInfo key={e.uri} url={e.album.images[1].url} title={e.name} artist={e.artists[0].name} toggleSelect={() => toggleSelect(e)} />
                                 </div>
                             </div>
                         ))}
