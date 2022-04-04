@@ -1,8 +1,8 @@
 import userEvent from "@testing-library/user-event"
 import React, { useState } from "react";
 
-const SongInfo = ({title, artist, url, toggleSelect}) => {
-    const [selected, setSelected] = useState(false);
+const SongInfo = ({title, artist, url, toggleSelect, select}) => {
+    const [selected, setSelected] = useState(select);
     const handleSelect = ()=> {
         setSelected(!selected);
         toggleSelect();

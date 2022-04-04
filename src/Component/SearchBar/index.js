@@ -1,27 +1,28 @@
 import React, { useState } from "react";
+import { getTracks } from "../../lib/spotifyConfig";
+import { toast } from "react-toastify";
+
 const Search = ({token, searchResult}) => {
     const [text, setText] = useState("")
 
-    const getTracks = async (e) => {
-        e.preventDefault()
-        const tracks = await fetch(
-            `https://api.spotify.com/v1/search?q=${text}&type=track&limit=8`, {
-            method: 'GET',
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-        ).then((response) => response.json());
-        const data = tracks.tracks.items
-        searchResult(data);
-    }
-    
     const handleInput = (e) => {
         setText(e.target.value)
     }
-    
+    const searchTracks = async(e)=> {
+        e.preventDefault()
+
+        try {
+            const data = await getTracks(text, token)
+            const tracks = data.tracks.items;
+            searchResult(tracks);
+
+        } catch (e) {
+            toast.error(e);
+        }
+
+    }    
     return (
-        <form onSubmit={getTracks}>
+        <form onSubmit={searchTracks}>
             <input onChange={handleInput} className="search" type="text" placeholder="Search Track"></input>
             <button className="btn-submit">Submit</button>
         </form>
