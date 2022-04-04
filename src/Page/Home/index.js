@@ -17,31 +17,29 @@ const Home = () => {
     const access_token = window.location.hash.split("&")[0].split('=')[1]
 
     const [tracks, setTracks] = useState([]);
+    const [selectedTrackUri, setSelectedTrackUri] = useState([]);
     const [selectedTrack, setSelectedTrack] = useState([]);
     const [token, setToken] = useState(access_token)
 
 
     const searchResultSuccess = (data) => {
-        const selectedTracks = filterSelectedTracks();
-        const notSelectedTrack = data.filter(
-            (track) => !selectedTrack.includes(track.uri)
+        const selectedTracks = data.filter(
+            (track) => selectedTrackUri.includes(track.uri)
         );
 
-        setTracks([...selectedTracks, ...notSelectedTrack])
-        console.log(tracks)
-
+       setTracks([...new Set([...selectedTracks, ...data])]);
     }
 
-    const filterSelectedTracks = () => {
-        return tracks.filter((track) => selectedTrack.includes(track.uri))
-    }
     const toggleSelect = (track) => {
         const uri = track.uri;
 
-        if (selectedTrack.includes(uri)) {
-            setSelectedTrack(selectedTrack.filter((item) => item !== uri));
+        if (selectedTrackUri.includes(uri)) {
+            setSelectedTrackUri(selectedTrackUri.filter((item) => item !== uri));
+            setSelectedTrack(selectedTrack.filter((item)=> item.uri !== uri))
+
         } else {
-            setSelectedTrack([...selectedTrack, uri]);
+            setSelectedTrackUri([...selectedTrackUri, uri]);
+            setSelectedTrack([...selectedTrack, track]);
         }
 
 
@@ -78,7 +76,14 @@ const Home = () => {
                         {tracks.map(e => (
                             <div className="wrapper">
                                 <div className="title-container">
-                                    <SongInfo key={e.uri} url={e.album.images[1].url} title={e.name} artist={e.artists[0].name} toggleSelect={() => toggleSelect(e)} />
+                                    <SongInfo 
+                                    key={e.uri} 
+                                    url={e.album.images[1].url} 
+                                    title={e.name} 
+                                    artist={e.artists[0].name} 
+                                    toggleSelect={() => toggleSelect(e)}
+                                    select = {selectedTrackUri.includes(e.uri)} 
+                                    />
                                 </div>
                             </div>
                         ))}

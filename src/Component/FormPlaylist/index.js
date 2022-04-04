@@ -1,23 +1,23 @@
-const Playlist = ()=> {
+const FormPlaylist = ()=> {
     return(
-        <form>
+        <form className="form-playlist">
             <label htmlFor="title">Playlist Title</label>
             <input 
             id="title"
             type="text"
             name="title"
-            placeholder="title"
+            placeholder="Title"
             />
             <label htmlFor="description">Description</label>
-            <input 
+            <textarea 
             id="description"
-            type="text"
+            type="textarea"
             name="description"
-            placeholder="description"
+            placeholder="Description"
             />
             <button className="btn-submit">Submit</button>
         </form>
     )
 }
 
-export default Playlist;
+export default FormPlaylist;
