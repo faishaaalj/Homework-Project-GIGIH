@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { getTracks } from "../../lib/spotifyConfig";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
 
 const Search = ({token, searchResult}) => {
     const [text, setText] = useState("")
@@ -22,10 +23,13 @@ const Search = ({token, searchResult}) => {
 
     }    
     return (
-        <form onSubmit={searchTracks}>
-            <input onChange={handleInput} className="search" type="text" placeholder="Search Track"></input>
-            <button className="btn-submit">Submit</button>
-        </form>
+        <>  
+            <ToastContainer />
+            <form onSubmit={searchTracks}>
+                <input onChange={handleInput} className="search" type="text" placeholder="Search Track"></input>
+                <button className="btn-submit">Submit</button>
+            </form>
+        </>
     )
 }
 

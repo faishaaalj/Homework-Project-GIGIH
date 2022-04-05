@@ -1,27 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './style.css';
 import SongInfo from "../../Component/SongInfo";
 import Search from "../../Component/SearchBar";
 import Playlist from "../../Component/FormPlaylist";
+import config from "../../lib/config";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
+import { getProfile } from "../../lib/spotifyConfig";
+
+
 
 
 
 
 const Home = () => {
-    const client_id = process.env.REACT_APP_SPOTIFY_KEY
-    const redirect_uri = "http://localhost:3000"
-    const url = 'https://accounts.spotify.com/authorize';
-    const response_type = "token"
-    const scope = "playlist-modify-private"
-    const auth = `${url}?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}`
-    const access_token = window.location.hash.split("&")[0].split('=')[1]
-
+   
+    const [user, setUser] = useState({})
     const [tracks, setTracks] = useState([]);
     const [selectedTrackUri, setSelectedTrackUri] = useState([]);
     const [selectedTrack, setSelectedTrack] = useState([]);
-    const [token, setToken] = useState(access_token)
+    const [token, setToken] = useState("")
+    const [login, setLogin] = useState(false);
 
+    useEffect(() => {
+        const access_token = new URLSearchParams(window.location.hash).get('#access_token');
 
+        if (access_token !== null) {
+            setToken(access_token)
+            setLogin(access_token !== null);
+
+            const userProfile = async ()=> {
+                try {
+                    const response = await getProfile(access_token);
+                    setUser(response);
+                } catch(e) {
+                    toast.error(e);
+                } 
+            }
+
+            userProfile();
+        } 
+    }, []);
+
+    const authorization = ()=> {
+        return `https://accounts.spotify.com/authorize?client_id=${process.env.REACT_APP_SPOTIFY_KEY}&redirect_uri=http://localhost:3000&response_type=token&scope=${config.SPOTIFY_SCOPE}`
+    }
     const searchResultSuccess = (data) => {
         const selectedTracks = data.filter(
             (track) => selectedTrackUri.includes(track.uri)
@@ -46,17 +69,21 @@ const Home = () => {
     };
     const logOut = () => {
         setToken("")
+        setLogin(false)
     }
+
+    console.log(selectedTrackUri)
     return (
-        <div >
-            {!token && (
+        <div>
+            <ToastContainer />
+            {!login && (
                 <div className="login-container">
                     <h2>Please Login</h2>
-                    <a href={auth}>Login</a>
+                    <a href={authorization()}>Login</a>
                 </div>
             )}
 
-            {token && (
+            {login && (
                 <div className="home-container">
                     <div className="button-container">
                         <a onClick={logOut}>Logout</a>
@@ -67,7 +94,7 @@ const Home = () => {
                         {tracks.length > 0 && (
                             <div className="playlist-container">
                                 <h2>Create Playlist</h2>
-                                <Playlist />
+                                <Playlist token={token} userId={user.id} uri={selectedTrackUri} />
                             </div>
                         )}
 
