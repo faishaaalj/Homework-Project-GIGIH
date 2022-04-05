@@ -7,32 +7,33 @@ import config from "../../lib/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
 import { getProfile } from "../../lib/spotifyConfig";
-
-
-
-
+import {useDispatch, useSelector} from "react-redux";
+import { login } from "../../accountSlice";
 
 
 const Home = () => {
    
-    const [user, setUser] = useState({})
     const [tracks, setTracks] = useState([]);
     const [selectedTrackUri, setSelectedTrackUri] = useState([]);
     const [selectedTrack, setSelectedTrack] = useState([]);
-    const [token, setToken] = useState("")
-    const [login, setLogin] = useState(false);
+
+    const auth = useSelector((state)=> state.auth.login)
+    const dispatch = useDispatch()
+
 
     useEffect(() => {
         const access_token = new URLSearchParams(window.location.hash).get('#access_token');
 
         if (access_token !== null) {
-            setToken(access_token)
-            setLogin(access_token !== null);
-
             const userProfile = async ()=> {
                 try {
                     const response = await getProfile(access_token);
-                    setUser(response);
+                    dispatch(
+                        login({
+                            token: access_token,
+                            user: response,
+                        })
+                    )
                 } catch(e) {
                     toast.error(e);
                 } 
@@ -68,33 +69,37 @@ const Home = () => {
 
     };
     const logOut = () => {
-        setToken("")
-        setLogin(false)
+        dispatch(
+            login({
+                token: "",
+                login: false,
+                user: {}
+            })
+        )
     }
 
-    console.log(selectedTrackUri)
     return (
         <div>
             <ToastContainer />
-            {!login && (
+            {!auth && (
                 <div className="login-container">
                     <h2>Please Login</h2>
                     <a href={authorization()}>Login</a>
                 </div>
             )}
 
-            {login && (
+            {auth && (
                 <div className="home-container">
                     <div className="button-container">
                         <a onClick={logOut}>Logout</a>
                         <h3>Search Track Here</h3>
                         <div>
-                            <Search token={token} searchResult={(tracks) => searchResultSuccess(tracks)} />
+                            <Search searchResult={(tracks) => searchResultSuccess(tracks)} />
                         </div>
                         {tracks.length > 0 && (
                             <div className="playlist-container">
                                 <h2>Create Playlist</h2>
-                                <Playlist token={token} userId={user.id} uri={selectedTrackUri} />
+                                <Playlist uri={selectedTrackUri} />
                             </div>
                         )}
 

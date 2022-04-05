@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { getTracks } from "../../lib/spotifyConfig";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
+import { useSelector } from "react-redux";
 
-const Search = ({token, searchResult}) => {
+const Search = ({searchResult}) => {
+    const token = useSelector((state) => state.auth.token);
+    
     const [text, setText] = useState("")
 
     const handleInput = (e) => {
