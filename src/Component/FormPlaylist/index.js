@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { createPlaylist, addTracksToPlaylist } from "../../lib/spotifyConfig";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
+import { useSelector } from "react-redux";
 
-const FormPlaylist = ({ token, userId, uri }) => {
+const FormPlaylist = ({ uri }) => {
+    const token = useSelector((state) => state.auth.token);
+    const userId = useSelector((state) => state.auth.user.id);
+    
     const [text, setText] = useState({
         title: "",
         description: "",
