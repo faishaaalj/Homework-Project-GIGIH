@@ -1,4 +1,3 @@
-import userEvent from "@testing-library/user-event"
 import React, { useState } from "react";
 
 const SongInfo = ({title, artist, url, toggleSelect, select}) => {
@@ -9,7 +8,7 @@ const SongInfo = ({title, artist, url, toggleSelect, select}) => {
     }
     return (
         <div>
-            <img src={url} />
+            <img src={url} alt="cover" />
             <p className="title">{title}</p>
             <p className="artist">{artist}</p>
             {selected? (
