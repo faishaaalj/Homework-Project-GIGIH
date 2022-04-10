@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css"
 import { getProfile } from "../../lib/spotifyConfig";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../accountSlice";
-import { BrowserRouter, Redirect, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter, Redirect, Switch, Route } from "react-router-dom";
 
 
 const Home = () => {
@@ -67,18 +67,7 @@ const Home = () => {
             setSelectedTrack([...selectedTrack, track]);
         }
 
-
     };
-    const logOut = () => {
-        dispatch(
-            login({
-                token: "",
-                login: false,
-                user: {}
-            })
-        )
-    }
-
     return (
         <div>
             <BrowserRouter>
@@ -98,7 +87,6 @@ const Home = () => {
                     <Route path="/CreatePlaylist">
                         <div className="home-container">
                             <div className="button-container">
-                                <a onClick={logOut}>Logout</a>
                                 <h3>Search Track Here</h3>
                                 <div>
                                     <Search searchResult={(tracks) => searchResultSuccess(tracks)} />
