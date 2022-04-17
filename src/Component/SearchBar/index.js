@@ -3,10 +3,6 @@ import { getTracks } from "../../lib/spotifyConfig";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
 import { useSelector } from "react-redux";
-import { Button, TextField } from "@mui/material";
-
-
-
 
 const Search = ({searchResult}) => {
     const token = useSelector((state) => state.auth.token);
@@ -29,19 +25,12 @@ const Search = ({searchResult}) => {
         }
 
     }
-    
     return (
         <>  
             <ToastContainer />
             <form onSubmit={searchTracks}>
-                {/* <input onChange={handleInput} className="search" type="text" placeholder="Search Track"></input>
-                <button className="btn-submit">Submit</button> */}
-                <TextField 
-                onChange={handleInput} 
-                id="outlined-basic" 
-                variant="standard" 
-                />
-                <Button variant="contained" color="success">Success</Button>
+                <input onChange={handleInput} className="search" type="text" placeholder="Search Track"></input>
+                <button className="btn-submit">Submit</button>
             </form>
         </>
     )

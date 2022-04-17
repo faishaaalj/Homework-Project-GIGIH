@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './style.css';
-import SongInfo from "../../Component/SongInfo";
+import SongInfo from "../../Component/SongInfo"
 import Search from "../../Component/SearchBar";
 import Playlist from "../../Component/FormPlaylist";
 import config from "../../lib/config";
@@ -13,7 +13,7 @@ import { BrowserRouter, Redirect, Switch, Route } from "react-router-dom";
 
 
 const Home = () => {
-
+    
     const [tracks, setTracks] = useState([]);
     const [selectedTrackUri, setSelectedTrackUri] = useState([]);
     const [selectedTrack, setSelectedTrack] = useState([]);
