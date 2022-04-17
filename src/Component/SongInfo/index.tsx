@@ -1,8 +1,18 @@
 import React, { useState } from "react";
 
-const SongInfo = ({title, artist, url, toggleSelect, select}) => {
-    const [selected, setSelected] = useState(select);
-    const handleSelect = ()=> {
+interface Props {
+   
+    title: string;
+    artist: string;
+    url: string;
+    toggleSelect: () => void;
+    select: boolean;
+    
+  }
+
+const SongInfo: React.FC<Props> = ({title, artist, url, toggleSelect, select}) => {
+    const [selected, setSelected] = useState<boolean>(select);
+    const handleSelect: ()=> void = ()=> {
         setSelected(!selected);
         toggleSelect();
     }
