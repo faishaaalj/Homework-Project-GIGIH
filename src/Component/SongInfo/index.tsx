@@ -19,17 +19,17 @@ const SongInfo: React.FC<Props> = ({title, artist, url, toggleSelect, select}) =
     return (
         <div className="song-container">
             <div>
-                <img src={url} alt="cover" />
+                <img data-testid="track-img" src={url} alt="cover" />
             </div>
             <div className="info-container">
                 <div className="info-wrapper">
-                    <p className="title">{title}</p>
-                    <p className="artist">{artist}</p>
+                    <p data-testid="track-title" className="title">{title}</p>
+                    <p data-testid="track-artist" className="artist">{artist}</p>
                 </div>
                 <div>
                     {selected? (
-                        <button onClick={handleSelect} className="btn-selected">DESELECT</button>
-                    ) : <button onClick={handleSelect} className="btn">SELECT</button> }
+                        <button data-testid="track-deselect" onClick={handleSelect} className="btn-selected">DESELECT</button>
+                    ) : <button data-testid="track-select" onClick={handleSelect} className="btn">SELECT</button> }
                 </div>
             </div>
         </div>
