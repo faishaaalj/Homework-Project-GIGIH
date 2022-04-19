@@ -24,6 +24,10 @@
    
 }
 
+.title {
+    text-align: left;
+}
+
 .title-container:hover {
     background-color: rgba(212, 211, 211, 0.192);
     transition: 0.3s;
