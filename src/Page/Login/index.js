@@ -7,8 +7,9 @@ const Login = () => {
 
 
     const authorization = () => {
-
-        const webUrl = window.location.origin
+        const protocol = window.location.protocol;
+        const host = window.location.host;
+        const webUrl = `${protocol}//${host}`
         return `https://accounts.spotify.com/authorize?client_id=${process.env.REACT_APP_SPOTIFY_KEY}&redirect_uri=${webUrl}&response_type=token&scope=${config.SPOTIFY_SCOPE}`
     }
 
