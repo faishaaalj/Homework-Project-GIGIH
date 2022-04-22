@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { createPlaylist, addTracksToPlaylist } from "../../lib/spotifyConfig";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
 import { useSelector } from "react-redux";
 
-const FormPlaylist = ({ uri }) => {
+
+const FormPlaylist = ({ uri, open, onClose }) => {
     const token = useSelector((state) => state.auth.token);
-    const userId = useSelector((state) => state.auth.user.id);
+    const userId = useSelector((state) => state.auth.user?.id);
 
     
     const [text, setText] = useState({
@@ -36,6 +37,8 @@ const FormPlaylist = ({ uri }) => {
 
     }
 
+    if (!open) return null;
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (formValidation()) {
@@ -55,6 +58,7 @@ const FormPlaylist = ({ uri }) => {
                         title: "",
                         description: "",
                     })
+                    onClose();
                 } catch (e) {
                     toast.error(e);
                 }
@@ -67,29 +71,35 @@ const FormPlaylist = ({ uri }) => {
     }
 
     return (
-        <>  
-            <ToastContainer />
-            <form className="form-playlist" onSubmit={handleSubmit}>
-                <label htmlFor="title">Playlist Title</label>
-                <input
-                    id="title"
-                    type="text"
-                    name="title"
-                    placeholder="Title"
-                    onChange={handleInput}
-                    required
-                />
-                <label htmlFor="description">Description</label>
-                <textarea
-                    id="description"
-                    type="textarea"
-                    name="description"
-                    placeholder="Description"
-                    onChange={handleInput}
-                    required
-                />
-                <button className="btn-submit">Submit</button>
-            </form>
+        <>
+            <div className="modal-overlay" />
+            <div className="playlist-container">  
+                <span data-testid="exit" onClick={onClose} className="exit">X</span>
+                <span data-testid="title-form" className="title">Create Playlist</span>    
+                <form className="form-playlist" onSubmit={handleSubmit}>
+                    <label data-testid="label-title" htmlFor="title">Playlist Title</label>
+                    <input
+                        id="title"
+                        type="text"
+                        name="title"
+                        placeholder="Title"
+                        onChange={handleInput}
+                        required
+                        data-testid="form-title"
+                    />
+                    <label data-testid="label-description" htmlFor="description">Description</label>
+                    <textarea
+                        id="description"
+                        type="textarea"
+                        name="description"
+                        placeholder="Description"
+                        onChange={handleInput}
+                        required
+                        data-testid="form-description"
+                    />
+                    <button data-testid="button-submit" className="btn-submit">Submit</button>
+                </form>
+            </div>
         </>
     )
 }

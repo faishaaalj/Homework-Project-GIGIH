@@ -28,7 +28,7 @@ const getTracks: typeGetTracks =  async (text, token) => {
     }
     
     const response: AxiosResponse = await axios.get(
-        `${config.SPOTIFY_API_URL}/search?type=track&q=${text}&limit=16`, headersOption
+        `${config.SPOTIFY_API_URL}/search?type=track&q=${text}`, headersOption
     )
     return response.data;
 }
