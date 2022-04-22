@@ -2,9 +2,10 @@ import React, { useState, ChangeEventHandler, FormEventHandler } from "react";
 import { getTracks } from "../../lib/spotifyConfig";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
-import { useSelector } from "react-redux";
 import { useSelectorType } from "../../store";
 import { ResponseTracks, Track } from "../../types/track"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
     searchResult: (tracks: Track[]) => void;
@@ -27,7 +28,7 @@ const Search: React.FC<Props> =  ({searchResult}) => {
             searchResult(tracks);
 
         } catch (e) {
-            toast.error("ERROR WHEN GETTING TRACKS");
+            toast.error("Error when getting tracks, make sure you have logged in");
         }
 
     }
@@ -35,8 +36,10 @@ const Search: React.FC<Props> =  ({searchResult}) => {
         <>  
             <ToastContainer />
             <form onSubmit={searchTracks}>
-                <input onChange={handleInput} className="search" type="text" placeholder="Search Track"></input>
-                <button className="btn-submit">Submit</button>
+                <input data-testid="input-search" onChange={handleInput} className="search" type="text" placeholder="Search Track"></input>
+                <button data-testid="button-search" className="btn-submit">
+                    <FontAwesomeIcon icon={faSearch} />
+                </button>
             </form>
         </>
     )
